@@ -1,35 +1,48 @@
 import {useEffect, useState} from "react";
 import ReactCardFlip from "react-card-flip";
-import Runa from "./Runa";
+import {useParams} from "react-router-dom";
+import {Col, Container, Row, Image} from "react-bootstrap";
 
-function Game(props) {
+
+function Game() {
+    const params = useParams()
+    const [cardsFlipped, setCardsFlipped] = useState([])
     const [cards, setCards] = useState([])
 
-    function handleCardClick(e) {
-        console.log("Clicked", e)
+    function handleCardClick(event) {
+        console.log("Clicked", event.target.parentNode.parentNode.parentNode.parentNode)
     }
 
     function generateCards() {
+        let localFlippedCards = []
         let localCards = []
 
-        for (let i = 0; i < props.pares; i++) {
+        for (let i = 0; i < params.nPares; i++) {
             let randomIndex1 = Math.floor(Math.random() * localCards.length)
-            localCards.splice(randomIndex1, 0, createCard(i))
+            let card1 = createCard(i, 2 * i)
+            localFlippedCards.splice(randomIndex1, 0, false)
+            localCards.splice(randomIndex1, 0, card1)
 
             let randomIndex2 = Math.floor(Math.random() * localCards.length)
-            localCards.splice(randomIndex2, 0, createCard(i))
+            let card2 = createCard(i, 2 * i + 1)
+            localFlippedCards.splice(randomIndex2, 0, false)
+            localCards.splice(randomIndex2, 0, card2)
         }
 
+        setCardsFlipped(localFlippedCards)
         setCards(localCards)
+
+        console.log(localCards, localFlippedCards)
     }
 
-    function createCard(cardId) {
+    function createCard(cardId, key) {
         return (
-            <ReactCardFlip data-id={cardId} onClick={(e) => handleCardClick(e)} isFlipped={this.state.isFlipped}>
-                <img src="/img/emptyRune.png" alt="" />
-
-                <img src={"/img/cards/runa"+cardId+".png"} alt="" />
-            </ReactCardFlip>
+            <Col key={key} data-id={cardId} >
+                <ReactCardFlip isFlipped={false}>
+                    <Image style={{cursor: "pointer"}} onClick={(event) => handleCardClick(event)} src="/img/emptyRune.png" />
+                    <Image src={"/img/cards/runa"+cardId+".png"} />
+                </ReactCardFlip>
+            </Col>
         )
     }
 
@@ -38,9 +51,11 @@ function Game(props) {
     }, []);
 
     return (
-        <div>
-            {cards}
-        </div>
+        <Container>
+            <Row >
+                {cards}
+            </Row>
+        </Container>
     )
 }
 
