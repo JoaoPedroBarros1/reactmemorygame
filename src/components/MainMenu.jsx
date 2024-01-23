@@ -1,9 +1,14 @@
 import  styles from "./MainMenu.module.css"
+import {Link} from "react-router-dom";
+
+
 function MainMenu() {
     return (
         <div className={styles.divmain}>
             <h1>Seja bem-vindo ao Memory Game!</h1>
-            <h3>O Memory Game é um jogo interativo, no qual o usuario deve selecionar os pares correspondentes, até que todos os pares sejam encontrados, assim, vencendo o jogo. O Memory Game utiliza como tema para os cards, runas nórdicas como o exemplo a seguir, combine e encontre as runas correspondente!</h3>
+            <h3>O Memory Game é um jogo interativo, no qual o usuario deve selecionar os pares correspondentes, até que
+                todos os pares sejam encontrados, assim, vencendo o jogo. O Memory Game utiliza como tema para os cards,
+                runas nórdicas como o exemplo a seguir, combine e encontre as runas correspondente!</h3>
             <h4>Exemplos:</h4>
             <div className={styles.divexemplo}>
                 <div>
@@ -20,7 +25,20 @@ function MainMenu() {
                 </div>
             </div>
             <div className={styles.divcontinue}>
-                <button className={styles.btncontinue}>Continuar</button>
+                <Link to="/Game/6" className={styles.btncontinue}>Continuar</Link>
+            </div>
+
+
+            <div className={styles.divdificuldade}>
+                <div className={styles.divcomtext}>
+                    <h2>Aqui voce pode escolher em qual dificuldade seja jogar</h2>
+                    <h3>Escolha a seguir em qual modo jogar:</h3>
+                </div>
+                <div className={styles.divcombuttons}>
+                   <button className={styles.btn1}>Fácil</button>
+                    <button className={styles.btn1}>Médio</button>
+                    <button className={styles.btn1}>Dificil</button>
+                </div>
             </div>
         </div>
     )
