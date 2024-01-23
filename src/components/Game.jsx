@@ -8,9 +8,16 @@ function Game() {
     const params = useParams()
     const [cardsFlipped, setCardsFlipped] = useState([])
     const [cards, setCards] = useState([])
+    const [firstCard, setFirstCard] = useState(null)
 
     function handleCardClick(event) {
         console.log("Clicked", event.target.parentNode.parentNode.parentNode.parentNode)
+
+        if (firstCard == null) {
+            console.log("First card clicked")
+        } else {
+            console.log("Second card clicked")
+        }
     }
 
     function generateCards() {
