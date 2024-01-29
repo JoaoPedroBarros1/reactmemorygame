@@ -1,11 +1,14 @@
+import Nav from "./NavHeader";
+
 import {useEffect, useRef, useState} from "react";
 import ReactCardFlip from "react-card-flip";
-import {useParams} from "react-router-dom";
-import {Col, Row, Image} from "react-bootstrap";
+import {useParams, useNavigate} from "react-router-dom";
+import {Col, Row, Image, Container} from "react-bootstrap";
 
 
 function Game() {
     const params = useParams()
+    const navigate = useNavigate()
 
     const [visualCards, setVisualCards] = useState([])
     const [cards, setCards] = useState([])
@@ -15,11 +18,12 @@ function Game() {
     const clickable = useRef(true)
 
     const cardsSolved = useRef(0)
+    const turnos = useRef(0)
 
 
     function createCard(index) {
         return (
-            <Col key={cards[index].key} >
+            <Col className="d-flex justify-content-center" key={cards[index].key} >
                 <ReactCardFlip isFlipped={cards[index].flipped}>
                     <Image onClick={() => handleCardClick(cards[index].id, cards[index].key)} src="/img/emptyRune.png" style={{cursor: "pointer"}} />
                     <Image src={"/img/cards/runa"+cards[index].id+".png"} />
@@ -50,6 +54,7 @@ function Game() {
 
             if (firstCard.current === -1) {
                 firstCard.current = key
+                turnos.current += 1
 
             } else {
                 clickable.current = false
@@ -66,7 +71,7 @@ function Game() {
                             }, 1000)
 
                         } else {
-                            cardsSolved.current = cardsSolved.current + 1
+                            cardsSolved.current += 1
 
                             if (cardsSolved.current === parseInt(params.nPares)) {
                                 winGame()
@@ -108,7 +113,9 @@ function Game() {
 
     // Irá rodar quando o jogador ganhar a partida
     function winGame() {
-        console.log("Player won game")
+        setTimeout(() => {
+            navigate("/Vitoria/"+turnos.current+"/"+params.nPares)
+        }, 1000)
     }
 
     // Roda apenas uma vez, quando a página carregar
